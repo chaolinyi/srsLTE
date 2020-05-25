@@ -203,10 +203,10 @@ int ra_sched::dl_rach_info(dl_sched_rar_info_t rar_info)
               rar_info.temp_crnti,
               rar_info.ta_cmd,
               rar_info.msg3_size);
-  // RA-RNTI = 1 + t_id + f_id
+  // RA-RNTI = 1 + t_id + 10 * f_id
   // t_id = index of first subframe specified by PRACH (0<=t_id<10)
   // f_id = index of the PRACH within subframe, in ascending order of freq domain (0<=f_id<6) (for FDD, f_id=0)
-  uint16_t ra_rnti = 1 + (uint16_t)(rar_info.prach_tti % 10u);
+  uint16_t ra_rnti = 1 + (uint16_t)(rar_info.prach_tti % 10u) /*+ 10 * f_id*/;
 
   // find pending rar with same RA-RNTI
   for (sf_sched::pending_rar_t& r : pending_rars) {
